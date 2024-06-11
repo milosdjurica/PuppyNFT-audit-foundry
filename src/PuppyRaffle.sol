@@ -38,6 +38,7 @@ contract PuppyRaffle is ERC721, Ownable {
     mapping(uint256 => string) public rarityToName;
 
     // Stats for the common puppy (pug)
+    // ! Can be constants
     string private commonImageUri = "ipfs://QmSsYRx3LpDAb1GZQm7zZ1AuHZjfbPkD6J7s9r41xu1mf8";
     uint256 public constant COMMON_RARITY = 70;
     string private constant COMMON = "common";
@@ -174,18 +175,19 @@ contract PuppyRaffle is ERC721, Ownable {
         previousWinner = winner;
         (bool success,) = winner.call{value: prizePool}("");
         require(success, "PuppyRaffle: Failed to send prize pool to winner");
-        // ! Reentrancy
+        // ! Reentrancy ?
         _safeMint(winner, tokenId);
     }
 
-    // ! When is this called?
     /// @notice this function will withdraw the fees to the feeAddress
     function withdrawFees() external {
         // ! Check if totalFees is being updated correctly
         // ! Can get error if after one iteration of lottery funds are not pulled out
         require(address(this).balance == uint256(totalFees), "PuppyRaffle: There are currently players active!");
+        // ! No need for this
         uint256 feesToWithdraw = totalFees;
         totalFees = 0;
+        // ! Can use address(this).balance
         (bool success,) = feeAddress.call{value: feesToWithdraw}("");
         require(success, "PuppyRaffle: Failed to withdraw fees");
     }
