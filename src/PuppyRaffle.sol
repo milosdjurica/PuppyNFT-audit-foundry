@@ -111,11 +111,11 @@ contract PuppyRaffle is ERC721, Ownable {
         require(playerAddress == msg.sender, "PuppyRaffle: Only the player can refund");
         require(playerAddress != address(0), "PuppyRaffle: Player already refunded, or is not active");
 
-        //  ! Check if this is good way of returning money
         payable(msg.sender).sendValue(entranceFee);
 
         // ! Putting address(0) in array, can this be picked as a winner?
         // ! Should be deleting from array, probably better ?
+        // ! Reentrancy
         players[playerIndex] = address(0);
         emit RaffleRefunded(playerAddress);
     }

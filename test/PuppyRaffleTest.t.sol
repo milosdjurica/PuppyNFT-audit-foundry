@@ -16,16 +16,42 @@ contract PuppyRaffleTest is Test {
     uint256 duration = 1 days;
 
     function setUp() public {
-        puppyRaffle = new PuppyRaffle(
-            entranceFee,
-            feeAddress,
-            duration
-        );
+        puppyRaffle = new PuppyRaffle(entranceFee, feeAddress, duration);
     }
 
     //////////////////////
     /// EnterRaffle    ///
     /////////////////////
+
+    function test_enterRaffle_DenialOfService_AttackProof() public {
+        vm.txGasPrice(1);
+
+        uint256 ONE_HUNDRED = 100;
+        address[] memory players = new address[](ONE_HUNDRED);
+        for (uint256 i; i < ONE_HUNDRED; ++i) {
+            players[i] = address(i);
+        }
+        uint256 gasStart = gasleft();
+        puppyRaffle.enterRaffle{value: entranceFee * ONE_HUNDRED}(players);
+        uint256 gasEnd = gasleft();
+
+        uint256 gasUserFirst100 = (gasStart - gasEnd) * tx.gasprice;
+        console.log("Gas cost of the first 100 is -> ", gasUserFirst100);
+
+        address[] memory players2 = new address[](ONE_HUNDRED);
+        for (uint256 i; i < ONE_HUNDRED; ++i) {
+            players2[i] = address(i + ONE_HUNDRED);
+        }
+
+        uint256 gasStart2 = gasleft();
+        puppyRaffle.enterRaffle{value: entranceFee * ONE_HUNDRED}(players2);
+        uint256 gasEnd2 = gasleft();
+
+        uint256 gasUserSecond = (gasStart2 - gasEnd2) * tx.gasprice;
+        console.log("Gas cost of the second 100 is -> ", gasUserSecond);
+
+        assert(gasUserSecond > gasUserFirst100);
+    }
 
     function testCanEnterRaffle() public {
         address[] memory players = new address[](1);

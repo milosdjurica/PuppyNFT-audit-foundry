@@ -31,6 +31,7 @@
 18. Check `tokenURI()`, not sure if it is good
 19. DoS Attack -> higher number of players it is more gas expensive for user to enter lottery and eventually wont be able to join. BECAUSE OF FOR LOOPS
 20. Use ++i in For Loops
+21. Maybe can change entranceFee to lower/higher and then user can refund other price that he didn't pay
 
 <!-- TODO Info -->
 
