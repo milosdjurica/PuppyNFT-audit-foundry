@@ -153,6 +153,9 @@ contract PuppyRaffle is ERC721, Ownable {
         // ! 20% goes to the account?
         uint256 fee = (totalAmountCollected * 20) / 100;
         // ! Can make it += for better readability
+        // ! Overflow and unsafe casting !!!
+        // 18446744073709551615 == type(uint64).max
+        // 18.446744073709551615 ether. If have 20 ether fees, it will overflow
         totalFees = totalFees + uint64(fee);
 
         // TODO
@@ -173,6 +176,7 @@ contract PuppyRaffle is ERC721, Ownable {
         delete players;
         raffleStartTime = block.timestamp;
         previousWinner = winner;
+        // ! if winner is smart contract and has malicious fallback, might be impossible to pick a winner
         (bool success,) = winner.call{value: prizePool}("");
         require(success, "PuppyRaffle: Failed to send prize pool to winner");
         // ! Reentrancy ?

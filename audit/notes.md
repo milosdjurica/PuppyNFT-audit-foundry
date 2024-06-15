@@ -32,9 +32,11 @@
 19. DoS Attack -> higher number of players it is more gas expensive for user to enter lottery and eventually wont be able to join. BECAUSE OF FOR LOOPS
 20. Use ++i in For Loops
 21. Maybe can change entranceFee to lower/higher and then user can refund other price that he didn't pay
+22. Overflow and unsafe casting in select winner `uint64(fee);`
+23. Impossible to `selectWinner()` if winner is smart contract with bad fallback()
 
 <!-- TODO Info -->
 
-1.  Naming convention for immutable and constants
-2.  Change to custom errors for better gas optimization
-3.  `totalFees = totalFees + uint64(fee);` -> Can make it += for better readability
+23. Naming convention for immutable and constants
+24. Change to custom errors for better gas optimization
+25. `totalFees = totalFees + uint64(fee);` -> Can make it += for better readability
