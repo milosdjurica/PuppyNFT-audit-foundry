@@ -37,6 +37,8 @@
 
 <!-- TODO Info -->
 
-23. Naming convention for immutable and constants
-24. Change to custom errors for better gas optimization
-25. `totalFees = totalFees + uint64(fee);` -> Can make it += for better readability
+1. Naming convention for immutable and constants
+2. Change to custom errors for better gas optimization
+3. `totalFees = totalFees + uint64(fee);` -> Can make it += for better readability
+4. Should have more events?
+5. Magic numbers
